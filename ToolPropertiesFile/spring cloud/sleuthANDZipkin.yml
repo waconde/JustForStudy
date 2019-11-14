@@ -1,0 +1,16 @@
+# sleuth、zipkin链路跟踪
+# 微服务中pom添加sleuth依赖，通过zuul网关访问微服务，可看到控制台打印日志
+# [服务id,请求id,span id,是否发送到zipkin]
+# 请求id：请求到达第一个微服务时生成一个请求id，该id在调用链路中会一直向后面的微服务传递（链路id）
+# span id：链路中每一步微服务调用，都生成一个新的id（节点id）
+# 下载zipkin服务器：https://github.com/openzipkin/zipkin
+# yml中配置链路数据被发送到zipkin服务的抽样比例。默认10%
+spring:
+  sleuth:
+    sampler:
+      probability: 0.1
+# 启动zipkin时，连接到rabbitmq：
+# java -jar zipkin-server-2.12.9-exec.jar --zipkin.collector.rabbitmq.uri=amqp://admin:admin@xxx.xxx.xxx.xxx:5672
+# 微服务添加zipkin启动依赖，如果没有配置过 spring cloud bus，
+# 需要再添加 spring-cloud-starter-stream-rabbit 依赖和 rabbitmq 连接信息
+# 访问zipkin：http://localhost:9411/zipkin

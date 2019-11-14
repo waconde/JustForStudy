@@ -1,0 +1,51 @@
+# hystrix：断路器。提供降级、熔断功能
+# 先导步骤要先添加ribbon，因此需要先完成ribbon的配置
+# 将ribbon配置中的spring.application.name: ribbon改为spring.application.name: hystrix
+# 向启动类添加@EnableCircuitBreaker。此时启动类上有三个注解：
+# @EnableCircuitBreaker、@EnableDiscoveryClient、@SpringBootApplication
+# 可用@SpringCloudApplication替代它们全部。
+# 启动类要有ribbon的RestTemplate实例
+# 向ribbon的controller中的方法上添加降级注解：
+# @HystrixCommand(fallbackMethod = "xxx") //指定降级方法的方法名，任意。
+# 并添加指定名称的降级方法，返回错误信息，降级方法的参数和返回值，需要和原始方法一致。
+# 向ribbon的yml文件末尾添加：
+hystrix:
+  command:
+    default:
+      # hystrix断路超时设置，此设置时间应大于ribbon超时时长。这里是10s
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 10000
+      circuitBreaker:
+        # 10秒内请求数量达到20（默认），如果没有达到该数量，即使请求全部失败，也不会触发断路器打开
+        requestVolumeThreshold: 20
+        # 如果10秒内请求达到20以上，且其中有50%（默认）失败，则将断路器开启
+        errorThresholdPercentage: 50%
+        # 断路器打开多5秒（默认）后，再次允许尝试访问。仍失败则继续保持打开状态，如成功访问则关闭断路器
+        sleepWindowInMilliseconds: 5000
+        
+# pom添加actuator依赖，暴露hystrix监控端点。
+# yml中添加：（值为*时，暴露所有端点）
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream
+# 访问监控端点：http://localhost:3001/actuator
+# 暴露监控端点后，可以使用hystrix dashboard
+# 新建hystrix dashboard项目，添加启动依赖hystrix dashboard、eureka discovery client（注册eureka服务保持高可用）
+# 编写yml
+#spring:
+#  application:
+#    name: hystrix-dashboard
+#    
+#server:
+#  port: 4001
+#
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://eurekaServer1:8001/eureka, http://eurekaServer2:8002/eureka
+# 启动类添加@EnableHystrixDashboard和@EnableDiscoveryClient
+# 访问hystrix dashboard，http://localhost:4001/hystrix，填入监控端点href：http://localhost:3001/actuator/hystrix.stream

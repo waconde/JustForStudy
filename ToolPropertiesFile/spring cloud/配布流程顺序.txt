@@ -1,0 +1,12 @@
+微服务
+eureka
+ribbon
+ribbon + hystrix
+hystrix dashboard
+feign
+turbine
+zuul
+config配置中心
+config bus + rabbitmq
+sleuth
+zipkin

@@ -1,0 +1,9 @@
+# i18n
+# 1、必须要有默认的语言文件。xxx.properties
+# 2、所有语言文件必须放在resource或其子文件夹下
+# 3、项目配置文件中必须指定默认语言文件路径，且不带后缀名
+# 4、语言文件命名必须按照固定格式，一字不差。xxx_en_US.properties/xxx_zh_CN.properties
+spring:
+  messages:
+    # 这里指定：语言包/默认语言文件名 不能加resource/或/
+    basename: i18n/hello

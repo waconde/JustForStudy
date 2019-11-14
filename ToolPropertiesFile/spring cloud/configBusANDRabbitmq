@@ -1,0 +1,60 @@
+# config bus 和 rabbitmq消息总线配置刷新
+# 为需要刷新配置的微服务和config配置服务器pom添加spring cloud bus依赖，
+# 需要使用STS，而不能使用STS插件，或者直接复制依赖路径添加，并添加rabbitmq依赖。
+# yml中添加rabbitmq配置并暴露刷新端点
+spring:
+  rabbitmq:
+    host: xxx.xxx.xxx.xxx
+    port: 5672
+    username: admin
+    password: admin
+management:
+  endpoints:
+    web:
+      exposure:
+        include: bus-refresh
+# 服务向刷新端点发送post请求，可刷新所有微服务配置：http://localhost:6001/actuator/bus-refresh
+# 或者指定刷新某个微服务配置：http://localhost:6001/actuator/bus-refresh/微服务名:微服务端口号
+# config本地文系统：可以把配置文件保存在配置中心服务的 resources或者resource/config目录下，直接访问本地文件
+# 修改配置中心服务的yml，
+spring:
+  application:
+    name: config-server
+  # 必须配置此项来激活本地文系统
+  profiles:
+    active: native
+  
+  cloud:
+    config:
+      server:
+        native:
+          # 指定本地文件路径默认：[classpath:/, classpath:/config, file:./, file:./config]
+          search-locations: classpath:/config
+
+#        git:
+#          uri: https://github.com/你的用户路径/sp-config
+#          searchPaths: config
+#          username: your-username
+#          password: your-password
+        
+    
+  rabbitmq:
+    host: xxx.xxx.xxx.xxx
+    port: 5672
+    username: admin
+    password: admin
+
+    
+server:
+  port: 6001
+    
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eurekaServer1:8001/eureka, http://eurekaServer2:8002/eureka
+      
+management:
+  endpoints:
+    web:
+      exposure:
+        include: bus-refresh

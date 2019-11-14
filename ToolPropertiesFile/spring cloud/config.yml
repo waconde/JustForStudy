@@ -1,0 +1,48 @@
+# config配置服务器
+# 将各个微服务配置文件集中，推到git上，
+# 新建项目，添加config-server、eureka discovery client启动依赖
+spring:
+  application:
+    name: config-server
+  
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/你的个人路径
+          searchPaths: repo下的文件夹路径
+          #username: your-username
+          #password: your-password
+    
+server:
+  port: 6001
+    
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eurekaServer1:8001/eureka, http://eurekaServer2:8002/eureka
+# 启动类添加@EnableConfigServer和@EnableDiscoveryClient
+# 在微服务项目pom中添加config客户端依赖。添加bootstrap.yml引导配置文件。
+# 编辑bootstrap.yml，添加下列信息
+spring: 
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: config-server
+      # 将会按照 微服务名-特征名 的规则下载配置文件
+      name: 微服务名
+      profile: 特征名
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eurekaServer1:8001/eureka, http://eurekaServer2:8002/eureka
+# 为需要动态刷新配置文件的微服务的service实现类上添加@RefreshScope或@ConfigurationProperties
+# 并在yml中暴露刷新端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh
+# post访问刷新端点即可刷新配置：http://localhost:8101/actuator/refresh

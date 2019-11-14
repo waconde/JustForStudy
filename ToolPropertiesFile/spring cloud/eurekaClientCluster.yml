@@ -1,0 +1,29 @@
+# eureka客户端集群
+# 需要在启动类上加@EnableDiscoveryClient，
+# 启用多个环境后，需要配置启动参数：--spring.profiles.active=eurekaCluster1、--spring.profiles.active=eurekaCluster2、...
+# Boot Dashboard中右键eurekaServer项目->Duplicate Config有几个server分几个->对每个config右键Open Config->
+# 修改name为对应服务器名以示区分，arguments中Program arguments中添加--spring.profiles.active=eurekaCluster1。
+# 依次为其他服务器添加各自对应参数
+# 如果是在命令行中启动，添加参数：java -jar xxx.jar --spring.profiles.active=eurekaCluster1
+spring:
+  application:
+    name: eureka-cluster
+eureka:
+  client:
+    service-url:
+      # 向所有server注册
+      defaultZone: http://eurekaServer1:8001/eureka, http://eurekaServer2:8002/eureka, http://eurekaServer3:8003/eureka
+
+---
+spring:
+  profiles: eurekaCluster1
+  
+server:
+  port: 8004
+
+---
+spring:
+  profiles: eurekaCluster2
+
+server:
+  port: 8005

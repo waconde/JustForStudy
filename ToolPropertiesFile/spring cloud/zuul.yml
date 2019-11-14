@@ -1,0 +1,46 @@
+# zuul：为微服务提供统一的对外访问接口，并可提供统一的请求校验
+# 添加zuul、Eureka Discovery Client启动依赖
+spring:
+  application:
+    name: zuul
+    
+server:
+  port: 3001
+  
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eurekaServer1:8001/eureka, http://eurekaServer2:8002/eureka
+
+zuul:
+  # 可缺省，默认就以服务名为访问路径
+  routes:
+    serviceName1: /serviceName1/**
+    serviceName2: /serviceName2/**
+    serviceName3: /serviceName3/**
+# 启动类上添加@EnableZuulProxy和@EnableDiscoveryClient
+# zuul默认实现了ribbon的负载均衡。但要开启重试得先pom添加spring-retry依赖
+zuul:
+  # 开启重试
+  retryable: true
+
+#  routes:
+#    item-service: /item-service/**
+#    user-service: /user-service/**
+#    order-service: /order-service/**
+    
+ribbon:
+  ConnectTimeout: 1000
+  ReadTimeout: 1000
+  MaxAutoRetriesNextServer: 1
+  MaxAutoRetries: 1
+# 创建降级类，实现FallbackProvider，getRoute()方法中，return "指定微服务名"，则当指定微服务失败，应用当前降级类。
+# 可为"*"或者null，表示所有微服务失败都会应用该降级类。
+# zuul已包含actuator依赖
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream
+# http://localhost:3001/actuator查看监控端点href。并将其填入hystrix dashboard。
+# 可以将zuul也添加入turbine项目中进行聚合监控。在turbine.app-config中添加zuul即可

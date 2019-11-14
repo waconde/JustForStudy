@@ -1,0 +1,14 @@
+# thymeleaf
+# templates下放动态页面，经controller返回页面名后，浏览器可访问。
+# static下放静态页面，经controller返回页面名.后缀名后，浏览器可访问。
+spring:
+  thymeleaf:
+    # 开发时关闭缓存
+    cache: false
+    prefix: classpath:/templates/
+    check-template-location: true
+    suffix: .html
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+    mode: HTML5
