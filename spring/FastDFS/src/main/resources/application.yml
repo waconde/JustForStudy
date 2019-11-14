@@ -1,0 +1,19 @@
+# slf4j日志配置
+logging:
+  # 配置级别
+  #分包配置级别，即不同的目录下可以使用不同的级别
+  level:
+    site.waconde: debug
+  # 在不指定路径，只指定输出日志的文件名，默认输出至当前项目下
+  # 若指定，则会输出至指定目录下
+  file: log\springboot.log
+  
+spring:
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 25MB
+      location: F:\UploadFile\uploadFileTemp\
+        
+upload:
+  folder: F:\UploadFile\uploadFolder\

@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: eurekaServer
+eureka:
+# 集群需要注释这两项，否则页面显示unavailable-replicas
+#  client:
+#    fetch-registry: false
+#    register-with-eureka: false
+  server:
+    enable-self-preservation: false
+---
+spring:
+  profiles: eurekaServer1
+server:
+  port: 8000
+eureka:
+  instance:
+    hostname: eurekaserver1
+  client:
+    serviceUrl:
+      defaultZone: http://eurekaserver2:8001/eureka, http://eurekaserver3:8002/eureka
+---
+spring:
+  profiles: eurekaServer2
+server:
+  port: 8001
+eureka:
+  instance:
+    hostname: eurekaserver2
+  client:
+    serviceUrl:
+      defaultZone: http://eurekaserver1:8000/eureka, http://eurekaserver3:8002/eureka
+---
+spring:
+  profiles: eurekaServer3
+server:
+  port: 8002
+eureka:
+  instance:
+    hostname: eurekaserver3
+  client:
+    serviceUrl:
+      defaultZone: http://eurekaserver1:8000/eureka, http://eurekaserver2:8001/eureka

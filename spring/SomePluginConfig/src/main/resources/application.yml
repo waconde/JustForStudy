@@ -1,0 +1,469 @@
+############################################## i18n
+# 1、必须要有默认的语言文件。xxx.properties
+# 2、所有语言文件必须放在resource或其子文件夹下
+# 3、项目配置文件中必须指定默认语言文件路径，且不带后缀名
+# 4、语言文件命名必须按照固定格式，一字不差。xxx_en_US.properties/xxx_zh_CN.properties
+spring:
+  messages:
+    # 这里指定：语言包/默认语言文件名 不加resource/
+    basename: i18n/hello
+    
+############################################## thymeleaf
+# templates下放动态页面，经controller返回页面名后，浏览器可访问。
+# static下放静态页面，经controller返回页面名.后缀名后，浏览器可访问。
+  thymeleaf:
+    # 开发时关闭缓存
+    cache: false
+    prefix: classpath:/templates/
+    check-template-location: true
+    suffix: .html
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+    mode: HTML5
+
+############################################## eureka服务端集群
+# 新建eurekaServer项目
+# 添加启动依赖：Eureka Server
+# 需要在启动类上加@EnableEurekaServer
+# 启用多个环境后，需要配置启动参数：--spring.profiles.active=eureka1、--spring.profiles.active=eureka2、...
+# Boot Dashboard中右键eurekaServer项目->Duplicate Config有几个server分几个->对每个config右键Open Config->
+# 修改name为对应服务器名以示区分，arguments中Program arguments中添加--spring.profiles.active=eureka1。
+# 依次为其他服务器添加各自对应参数
+# 如果是在命令行中启动，添加参数：java -jar xxx.jar --spring.profiles.active=eureka1
+#spring:
+  application:
+    name: eureka-server
+eureka:
+  server:
+    # eureka 的自我保护状态：
+    # 心跳失败的比例，在15分钟内是否低于85%,
+    # 如果出现了低于的情况，Eureka Server会将当前的实例注册信息保护起来，
+    # 同时提示一个警告，控制台上底部红字。
+    # 一旦进入保护模式，Eureka Server将会尝试保护其服务注册表中的信息，
+    # 不再删除服务注册表中的数据。也就是不会注销任何微服务。
+    enableSelfPreservation: false
+
+---
+spring:
+  # 配置各自的环境名
+  profiles: eurekaServer1
+
+server:
+  port: 8001
+  
+# eurekaServer1 向 eurekaServer2、3 注册
+eureka:
+  instance:
+    hostname: eurekaServer1
+  client:
+    service-url: 
+      # 默认的注册地址。向其他server注册
+      defaultZone: http://eurekaServer2:8002/eureka, http://eurekaServer3:8003/eureka
+
+---
+spring:
+  profiles: eurekaServer2
+
+server:
+  port: 8002
+  
+# eurekaServer2 向 eurekaServer1、3 注册
+eureka:
+  instance:
+    hostname: eurekaServer2
+  client:
+    service-url:
+      defaultZone: http://eurekaServer1:8001/eureka, http://eurekaServer3:8003/eureka
+
+---
+spring:
+  profiles: eurekaServer3
+
+server:
+  port: 8003
+  
+# eurekaServer3 向 eurekaServer1、2 注册
+eureka:
+  instance:
+    hostname: eurekaServer3
+  client:
+    service-url:
+      defaultZone: http://eurekaServer1:8001/eureka, http://eurekaServer2:8002/eureka
+      
+############################################## eureka客户端集群
+# 为需要注册eureka服务的微服务添加启动依赖：Eureka Discovery Client
+# 需要在启动类上加@EnableDiscoveryClient
+# 启用多个环境后，需要配置启动参数：--spring.profiles.active=eurekaCluster1、--spring.profiles.active=eurekaCluster2、...
+# Boot Dashboard中右键eurekaServer项目->Duplicate Config有几个server分几个->对每个config右键Open Config->
+# 修改name为对应服务器名以示区分，arguments中Program arguments中添加--spring.profiles.active=eurekaCluster1。
+# 依次为其他服务器添加各自对应参数
+# 如果是在命令行中启动，添加参数：java -jar xxx.jar --spring.profiles.active=eurekaCluster1
+#spring:
+#  application:
+#    name: eureka-cluster
+#eureka:
+#  client:
+#    service-url:
+#      # 向所有server注册
+#      defaultZone: http://eurekaServer1:8001/eureka, http://eurekaServer2:8002/eureka, http://eurekaServer3:8003/eureka
+#
+#---
+#spring:
+#  profiles: eurekaCluster1
+#  
+#server:
+#  port: 8004
+#
+#---
+#spring:
+#  profiles: eurekaCluster2
+#
+#server:
+#  port: 8005
+
+############################################## ribbon：提供负载均衡和重试功能
+# 新建ribbon项目，添加启动依赖：Eureka Discovery Client。里面包含ribbon
+# pom添加spring-retry依赖
+# 需要在启动类上加@EnableDiscoveryClient
+# 启动类中添加RestTemplate实例
+#  //创建 RestTemplate 实例，并存入 spring 容器
+#  //负载均衡注解，会对 RestTemplate 实例进行封装，创建动态代理对象，
+#  //并切入（AOP）负载均衡代码，把请求分散分发到集群中的服务器
+#  @LoadBalanced
+#  @Bean
+#  public RestTemplate getRestTemplate() {
+#    SimpleClientHttpRequestFactory f = new SimpleClientHttpRequestFactory();
+#
+#    //RestTemplate 中默认的 Factory 实例中，两个超时属性默认是 -1，
+#    //未启用超时，也不会触发重试
+#    f.setConnectTimeout(1000);
+#    f.setReadTimeout(1000);
+#    return new RestTemplate(f);
+#  }
+# 编写Controller
+#
+#spring:
+#  application: 
+#    name: ribbon
+#    
+#server:
+#  port: 3001
+#  
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://eurekaServer1:8001/eureka, http://eurekaServer2:8002/eureka,http://eurekaServer3:8003/eureka
+#ribbon:
+#  # 更换实例的次数
+#  MaxAutoRetriesNextServer: 2
+#  # 当前实例重试次数，尝试失败会更换下一个实例
+#  MaxAutoRetries: 1
+#  # 对连接超时、读取超时都进行重试
+#  OkToRetryOnAllOperations: true
+
+############################################## hystrix：断路器。提供降级、熔断功能
+# 先导步骤要先添加ribbon，因此需要先完成ribbon的配置
+# 将ribbon配置中的spring.application.name: ribbon改为spring.application.name: hystrix
+# 向启动类添加@EnableCircuitBreaker。此时启动类上有三个注解：
+# @EnableCircuitBreaker、@EnableDiscoveryClient、@SpringBootApplication
+# 可用@SpringCloudApplication替代它们全部。
+# 启动类要有ribbon的RestTemplate实例
+# 向ribbon的controller中的方法上添加降级注解：
+# @HystrixCommand(fallbackMethod = "xxx") //指定降级方法的方法名，任意。
+# 并添加指定名称的降级方法，返回错误信息，降级方法的参数和返回值，需要和原始方法一致。
+# 向ribbon的yml文件末尾添加：
+hystrix:
+  command:
+    default:
+      # hystrix断路超时设置，此设置时间应大于ribbon超时时长。这里是10s
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 10000
+      circuitBreaker:
+        # 10秒内请求数量达到20（默认），如果没有达到该数量，即使请求全部失败，也不会触发断路器打开
+        requestVolumeThreshold: 20
+        # 如果10秒内请求达到20以上，且其中有50%（默认）失败，则将断路器开启
+        errorThresholdPercentage: 50%
+        # 断路器打开多5秒（默认）后，再次允许尝试访问。仍失败则继续保持打开状态，如成功访问则关闭断路器
+        sleepWindowInMilliseconds: 5000
+        
+# pom添加actuator依赖，暴露hystrix监控端点。
+# yml中添加：（值为*时，暴露所有端点）
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream
+# 访问监控端点：http://localhost:3001/actuator
+# 暴露监控端点后，可以使用hystrix dashboard
+# 新建hystrix dashboard项目，添加启动依赖hystrix dashboard、eureka discovery client（注册eureka服务保持高可用）
+# 编写yml
+#spring:
+#  application:
+#    name: hystrix-dashboard
+#    
+#server:
+#  port: 4001
+#
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://eurekaServer1:8001/eureka, http://eurekaServer2:8002/eureka
+# 启动类添加@EnableHystrixDashboard和@EnableDiscoveryClient
+# 访问hystrix dashboard，http://localhost:4001/hystrix，填入监控端点href：http://localhost:3001/actuator/hystrix.stream
+
+############################################## fegin：ribbon与hystrix的结合
+# 新建fegin项目，启动依赖添加Actuator、fegin、Eureka Discovery Client
+# 启动类添加@EnableDiscoveryClient和@EnableFeginClients
+#spring:
+#  application:
+#    name: feign
+#    
+#server:
+#  port: 3001
+#  
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://eurekaServer1:8001/eureka, http://eurekaServer2:8002/eureka
+# 编写Controller，编写Service，并在Service接口上添加@FeginClient("微服务名")
+# 这样在调用该接口中方法时，fegin会向服务器发送请求：http://微服务名/参数
+# 注意,如果Service中请求参数名与方法参数名不同,@RequestParam不能省略,
+# 并且要指定请求参数名:@RequestParam("y") Integer s
+# fegin默认启用了ribbon的负载均衡和重试，直接添加yml配置
+#ribbon:
+#  ConnectTimeout: 1000
+#  ReadTimeout: 1000
+#  
+# 这里使用微服务名来设置特定微服务的属性
+#serviceName微服务名:
+#  ribbon:
+#    ConnectTimeout: 500
+#    ReadTimeout: 1000
+#    MaxAutoRetriesNextServer: 2
+#    MaxAutoRetries: 1
+# fegin未添加完整的hystrix依赖，需在pom添加hystrix依赖，启动类添加@EnableCircuitBreaker
+# fegin默认未启用hystrix，需要配置启用。后续hystrix的配置可参照hystrix配置内容
+#feign:
+#  hystrix:
+#    enabled: true
+#hystrix:
+#  command:
+#    default:
+#      execution:
+#        isolation:
+#          thread:
+#            timeoutInMilliseconds: 10000
+# 启用hystrix降级后，如果没有降级方法则会在发生降级后，显示白板页。
+# 编写降级类，实现对应微服务Service接口，添加@Component，交于spring管理。
+# 修改微服务Service上的@FeignClient(name="微服务名", fallback = 降级类.class)
+# pom添加actuator依赖，暴露hystrix监控端点
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: hystrix.stream
+# 启动hystrix dashboard项目，输入监控端点href进行监控
+
+############################################## turbine：hystrix dashboard只能监控一个服务，turbine可以将多个服务的信息聚合提供给dashboard显示
+# 添加turbine、Eureka Discovery Client启动依赖
+#spring:
+#  application:
+#    name: turbin
+#    
+#server:
+#  port: 5001
+#  
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://eurekaServer1:8001/eureka, http://eurekaServer2:8002/eureka
+#      
+#turbine:
+#  # 要监控的服务名
+#  app-config: ServiceName微服务名, feign
+#  cluster-name-expression: new String("default")
+# 启动类添加@EnableTurbine和@EnableDiscoveryClient注解
+# 访问http://localhost:5001/turbine.stream获得监控端点href，将href填入hystrix dashboard中
+
+############################################## zuul：为微服务提供统一的对外访问接口，并可提供统一的请求校验
+# 添加zuul、Eureka Discovery Client启动依赖
+#spring:
+#  application:
+#    name: zuul
+#    
+#server:
+#  port: 3001
+#  
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://eurekaServer1:8001/eureka, http://eurekaServer2:8002/eureka
+#
+#zuul:
+#  # 可缺省，默认就以服务名为访问路径
+#  routes:
+#    serviceName1: /serviceName1/**
+#    serviceName2: /serviceName2/**
+#    serviceName3: /serviceName3/**
+# 启动类上添加@EnableZuulProxy和@EnableDiscoveryClient
+# zuul默认实现了ribbon的负载均衡。但要开启重试得先pom添加spring-retry依赖
+#zuul:
+#  # 开启重试
+#  retryable: true
+#
+##  routes:
+##    item-service: /item-service/**
+##    user-service: /user-service/**
+##    order-service: /order-service/**
+#    
+#ribbon:
+#  ConnectTimeout: 1000
+#  ReadTimeout: 1000
+#  MaxAutoRetriesNextServer: 1
+#  MaxAutoRetries: 1
+# 创建降级类，实现FallbackProvider，getRoute()方法中，return "指定微服务名"，则当指定微服务失败，应用当前降级类。
+# 可为"*"或者null，表示所有微服务失败都会应用该降级类。
+# zuul已包含actuator依赖
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: hystrix.stream
+# http://localhost:3001/actuator查看监控端点href。并将其填入hystrix dashboard。
+# 可以将zuul也添加入turbine项目中进行聚合监控。在turbine.app-config中添加zuul即可
+# 开启zuul的请求校验需要编写过滤器类，继承ZuulFilter类。shouldFilter()方法中，对需要过滤的微服务返回true。
+# 直接返回true将会对所有微服务实现校验
+# zuul会过滤敏感http协议头，默认会过滤；cookie、set-cookie、authorization
+#zuul:
+#  # 设置不过滤的协议头
+#  sensitive-headers: 
+
+############################################## config配置服务器
+# 将各个微服务配置文件集中，推到git上
+# 新建项目，添加config-server、eureka discovery client启动依赖
+#spring:
+#  application:
+#    name: config-server
+#  
+#  cloud:
+#    config:
+#      server:
+#        git:
+#          uri: https://github.com/你的个人路径
+#          searchPaths: repo下的文件夹路径
+#          #username: your-username
+#          #password: your-password
+#    
+#server:
+#  port: 6001
+#    
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://eurekaServer1:8001/eureka, http://eurekaServer2:8002/eureka
+# 启动类添加@EnableConfigServer和@EnableDiscoveryClient
+# 在微服务项目pom中添加config客户端依赖。添加bootstrap.yml引导配置文件。
+# 编辑bootstrap.yml，添加下列信息
+#spring: 
+#  cloud:
+#    config:
+#      discovery:
+#        enabled: true
+#        service-id: config-server
+#      # 将会按照 微服务名-特征名 的规则下载配置文件
+#      name: 微服务名
+#      profile: 特征名
+#
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://eurekaServer1:8001/eureka, http://eurekaServer2:8002/eureka
+# 为需要动态刷新配置文件的微服务的service实现类上添加@RefreshScope或@ConfigurationProperties
+# 并在yml中暴露刷新端点
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: refresh
+# post访问刷新端点即可刷新配置：http://localhost:8101/actuator/refresh
+
+############################################## config bus 和 rabbitmq消息总线配置刷新
+# 为需要刷新配置的微服务和config配置服务器pom添加spring cloud bus依赖，
+# 需要使用STS，而不能使用STS插件，或者直接复制依赖路径添加，并添加rabbitmq依赖。
+# yml中添加rabbitmq配置并暴露刷新端点
+#spring:
+#  rabbitmq:
+#    host: xxx.xxx.xxx.xxx
+#    port: 5672
+#    username: admin
+#    password: admin
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: bus-refresh
+# 服务向刷新端点发送post请求，可刷新所有微服务配置：http://localhost:6001/actuator/bus-refresh
+# 或者指定刷新某个微服务配置：http://localhost:6001/actuator/bus-refresh/微服务名:微服务端口号
+# config本地文系统：可以把配置文件保存在配置中心服务的 resources或者resource/config目录下，直接访问本地文件
+# 修改配置中心服务的yml，
+#spring:
+#  application:
+#    name: config-server
+#  # 必须配置此项来激活本地文系统
+#  profiles:
+#    active: native
+#  
+#  cloud:
+#    config:
+#      server:
+#        native:
+#          # 指定本地文件路径默认：[classpath:/, classpath:/config, file:./, file:./config]
+#          search-locations: classpath:/config
+#
+##        git:
+##          uri: https://github.com/你的用户路径/sp-config
+##          searchPaths: config
+##          username: your-username
+##          password: your-password
+#        
+#    
+#  rabbitmq:
+#    host: xxx.xxx.xxx.xxx
+#    port: 5672
+#    username: admin
+#    password: admin
+#
+#    
+#server:
+#  port: 6001
+#    
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://eurekaServer1:8001/eureka, http://eurekaServer2:8002/eureka
+#      
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: bus-refresh
+
+############################################## sleuth、zipkin链路跟踪
+# 微服务中pom添加sleuth依赖，通过zuul网关访问微服务，可看到控制台打印日志
+# [服务id,请求id,span id,是否发送到zipkin]
+# 请求id：请求到达第一个微服务时生成一个请求id，该id在调用链路中会一直向后面的微服务传递（链路id）
+# span id：链路中每一步微服务调用，都生成一个新的id（节点id）
+# 下载zipkin服务器：https://github.com/openzipkin/zipkin
+# yml中配置链路数据被发送到zipkin服务的抽样比例。默认10%
+#spring:
+#  sleuth:
+#    sampler:
+#      probability: 0.1
+# 启动zipkin时，连接到rabbitmq：
+# java -jar zipkin-server-2.12.9-exec.jar --zipkin.collector.rabbitmq.uri=amqp://admin:admin@xxx.xxx.xxx.xxx:5672
+# 微服务添加zipkin启动依赖，如果没有配置过 spring cloud bus，
+# 需要再添加 spring-cloud-starter-stream-rabbit 依赖和 rabbitmq 连接信息
+# 访问zipkin：http://localhost:9411/zipkin

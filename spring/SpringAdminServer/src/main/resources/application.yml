@@ -1,0 +1,6 @@
+# 启动类还需要添加注解
+# @Configuration
+# @EnableAutoConfiguration
+# @EnableAdminServer
+server:
+  port: 8000
