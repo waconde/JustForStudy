@@ -1,5 +1,5 @@
 # eureka服务端集群
-# 需要在启动类上加@EnableEurekaServer
+# 需要在启动类上加@EnableEurekaServer。只有eureka注册中心需要加此注解。其他服务都作为客户端加@EnableDiscoveryClient
 # 启用多个环境后，需要配置启动参数：--spring.profiles.active=eureka1、--spring.profiles.active=eureka2、...
 # Boot Dashboard中右键eurekaServer项目->Duplicate Config有几个server分几个->对每个config右键Open Config->
 # 修改name为对应服务器名以示区分，arguments中Program arguments中添加--spring.profiles.active=eureka1。
