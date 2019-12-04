@@ -1,6 +1,7 @@
 # thymeleaf
 # templates下放动态页面，经controller返回页面名后，浏览器可访问。
 # static下放静态页面，经controller返回页面名.后缀名后，浏览器可访问。
+# href或src中引用静态资源文件，需在路径前加“/”。如“/css/xxx.css”
 spring:
   thymeleaf:
     # 开发时关闭缓存
