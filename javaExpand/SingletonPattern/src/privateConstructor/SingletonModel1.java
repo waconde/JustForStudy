@@ -6,7 +6,7 @@ public class SingletonModel1 implements Serializable {
     private static final long serialVersionUID = -4214717102400201376L;
     
     private static final SingletonModel1 INSTANCE = new SingletonModel1();
-	// 全局检测开关，第一次创建对象时关闭，防止反射二次创建对象。
+	// 全局检测开关，第一次创建对象后就关闭，防止反射二次创建对象。
 	private static boolean isFirst = true;
 	
 	private SingletonModel1() {
@@ -23,11 +23,12 @@ public class SingletonModel1 implements Serializable {
 		return INSTANCE;
 	}
 	
-	// 防止反序列化产生新的实例对象
+	// 防止反序列化产生新的实例对象。如果一定要实现Serializable接口的话
 	private Object readResolve() {
 		return INSTANCE;
 	}
 
+	// 防止克隆产生新的实例对象
 	@Override
 	protected Object clone() throws CloneNotSupportedException {
 		return INSTANCE;
