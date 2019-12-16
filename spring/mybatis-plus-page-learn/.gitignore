@@ -1,0 +1,11 @@
+# for idea java project
+*.iml
+*.jar
+*.class
+/target
+.idea
+.DS_Store
+# for eclipse
+*.classpath
+*.project
+.settings
