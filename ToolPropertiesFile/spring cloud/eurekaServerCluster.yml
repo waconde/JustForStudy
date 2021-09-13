@@ -29,13 +29,13 @@ spring:
 
 server:
   port: 8001
-  
+
 # eurekaServer1 向 eurekaServer2、3 注册
 eureka:
   instance:
     hostname: eurekaServer1
   client:
-    service-url: 
+    service-url:
       # 默认的注册地址。向其他server注册
       defaultZone: http://eurekaServer2:8002/eureka, http://eurekaServer3:8003/eureka
 
@@ -45,7 +45,7 @@ spring:
 
 server:
   port: 8002
-  
+
 # eurekaServer2 向 eurekaServer1、3 注册
 eureka:
   instance:
@@ -60,7 +60,7 @@ spring:
 
 server:
   port: 8003
-  
+
 # eurekaServer3 向 eurekaServer1、2 注册
 eureka:
   instance:

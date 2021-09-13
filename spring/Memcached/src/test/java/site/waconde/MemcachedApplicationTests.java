@@ -18,9 +18,9 @@ public class MemcachedApplicationTests {
     private MemcachedRunner memcachedRunner;
 
     @Test
-    public void testSetGet()  {
+    public void testSetGet() {
         MemcachedClient memcachedClient = memcachedRunner.getClient();
-        memcachedClient.set("testkey",1000,"666666");
+        memcachedClient.set("testkey", 1000, "666666");
         System.out.println("***********  " + memcachedClient.get("testkey").toString());
     }
 

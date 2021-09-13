@@ -1,2 +1,1 @@
-spring:  servlet:    multipart:      max-file-size: 20MB      max-request-size: 25MB      location: F:\UploadFile\uploadFileTemp\        
-upload:  folder: F:\UploadFile\uploadFolder\
+spring:  servlet:    multipart:      max-file-size: 20MB      max-request-size: 25MB      location: F:\UploadFile\uploadFileTemp\upload:  folder: F:\UploadFile\uploadFolder\

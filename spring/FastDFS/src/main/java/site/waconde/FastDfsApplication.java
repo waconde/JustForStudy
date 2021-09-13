@@ -10,10 +10,10 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class FastDfsApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(FastDfsApplication.class, args);
-	}
-	
+    public static void main(String[] args) {
+        SpringApplication.run(FastDfsApplication.class, args);
+    }
+
     /*
      * 添加tomcat上传文件大小限制，默认为10，-1则无限制
      */

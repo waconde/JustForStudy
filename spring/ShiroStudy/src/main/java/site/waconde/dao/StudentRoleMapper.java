@@ -10,5 +10,5 @@ import site.waconde.entity.StudentRoleInfo;
 
 @Mapper
 public interface StudentRoleMapper extends BaseMapper<StudentRoleInfo> {
-    
+
 }

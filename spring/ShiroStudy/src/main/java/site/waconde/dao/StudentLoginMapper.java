@@ -8,5 +8,5 @@ import site.waconde.entity.StudentInfo;
 
 @Mapper
 public interface StudentLoginMapper extends BaseMapper<StudentInfo> {
-    
+
 }

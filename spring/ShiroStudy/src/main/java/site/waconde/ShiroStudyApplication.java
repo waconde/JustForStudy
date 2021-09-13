@@ -10,12 +10,12 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 @SpringBootApplication
 public class ShiroStudyApplication extends SpringBootServletInitializer {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ShiroStudyApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ShiroStudyApplication.class, args);
+    }
 
-	@Override
+    @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-	    return application.sources(ShiroStudyApplication.class);
-	}
+        return application.sources(ShiroStudyApplication.class);
+    }
 }

@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
  * 启动类SpringApplication.run();方法执行之前执行，
  * 负责在程序启动之初执行数据的初始化工作。
  * 可以通过@Order注解进行排序，将会按顺序执行数据初始化
- * @author side.wang
  *
+ * @author side.wang
  */
 @Component
 @Order(3)

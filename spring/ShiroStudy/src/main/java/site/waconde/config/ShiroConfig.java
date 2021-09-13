@@ -57,7 +57,7 @@ public class ShiroConfig {
         return customRealm;
     }
 
-    /* 
+    /*
      * 启用shiro在ioc容器中的注解，但是必须配置在Spring Ioc容器中Shiro bean的生成周期方法。依托LifecycleBeanPostProcessor
      */
     @Bean
@@ -70,7 +70,7 @@ public class ShiroConfig {
     @Bean
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
         AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor =
-            new AuthorizationAttributeSourceAdvisor();
+                new AuthorizationAttributeSourceAdvisor();
         authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
         return authorizationAttributeSourceAdvisor;
     }

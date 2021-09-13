@@ -49,7 +49,7 @@ public class UploadFileController {
             Files.write(path, bytes);
 
             redirectAttributes.addFlashAttribute("message",
-                "You successfully uploaded '" + file.getOriginalFilename() + "'");
+                                                 "You successfully uploaded '" + file.getOriginalFilename() + "'");
 
         } catch (IOException e) {
             e.printStackTrace();

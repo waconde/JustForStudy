@@ -3,15 +3,15 @@
 spring:
   application:
     name: turbin
-    
+
 server:
   port: 5001
-  
+
 eureka:
   client:
     service-url:
       defaultZone: http://eurekaServer1:8001/eureka, http://eurekaServer2:8002/eureka
-      
+
 turbine:
   # 要监控的服务名
   app-config: ServiceName微服务名, feign

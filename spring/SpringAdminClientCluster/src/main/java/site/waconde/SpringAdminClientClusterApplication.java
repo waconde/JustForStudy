@@ -10,8 +10,8 @@ import org.springframework.context.annotation.Configuration;
 @EnableDiscoveryClient
 public class SpringAdminClientClusterApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(SpringAdminClientClusterApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(SpringAdminClientClusterApplication.class, args);
+    }
 
 }

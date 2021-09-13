@@ -6,7 +6,7 @@ import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-/** 
+/**
  * 发送方
  * 需要指定向哪个队列发送消息。
  *
@@ -15,18 +15,18 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class RabbitMQSender {
-	@Autowired
-	private AmqpTemplate rabbitTemplate;
-	
-	public void send() {
-		String context = "hello, this is " + new Date();
-		System.out.println("Sender:" + context);
-		rabbitTemplate.convertAndSend("OneRabbitMQ", context);
-	}
+    @Autowired
+    private AmqpTemplate rabbitTemplate;
 
-	public void send(String string) {
-		System.out.println("Sender:this is " + string);
-		rabbitTemplate.convertAndSend("OneRabbitMQ", string);
-	}
-	
+    public void send() {
+        String context = "hello, this is " + new Date();
+        System.out.println("Sender:" + context);
+        rabbitTemplate.convertAndSend("OneRabbitMQ", context);
+    }
+
+    public void send(String string) {
+        System.out.println("Sender:this is " + string);
+        rabbitTemplate.convertAndSend("OneRabbitMQ", string);
+    }
+
 }

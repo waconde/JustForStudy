@@ -8,8 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @MapperScan("site.waconde.pageLearn.mapper")
 public class MybatisPlusPageLearnApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(MybatisPlusPageLearnApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(MybatisPlusPageLearnApplication.class, args);
+    }
 
 }

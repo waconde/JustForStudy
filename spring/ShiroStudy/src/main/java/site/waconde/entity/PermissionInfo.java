@@ -17,8 +17,8 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @TableName(schema = "study", keepGlobalPrefix = false)
 public class PermissionInfo implements Serializable {
-    private static final long serialVersionUID = -2640311866203024958L;
-    
+    private static final long serialVersionUID = - 2640311866203024958L;
+
     @TableId(type = IdType.AUTO)
     private Integer id;
     private String name;

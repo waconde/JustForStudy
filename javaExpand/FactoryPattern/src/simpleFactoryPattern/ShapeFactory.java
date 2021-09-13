@@ -2,8 +2,8 @@ package simpleFactoryPattern;
 
 /**
  * 使用反射机制创建实例，符合开闭原则
- * @author side.wang
  *
+ * @author side.wang
  */
 public class ShapeFactory {
     public static Shape getShape(String clazz) {
@@ -19,6 +19,6 @@ public class ShapeFactory {
             e.printStackTrace();
         }
 
-        return (Shape)obj;
+        return (Shape) obj;
     }
 }

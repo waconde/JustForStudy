@@ -14,7 +14,7 @@ public class Person {
 
     // 包含所有属性的构造器
     public Person(String id, String name, byte age, char gender, float stature, float weight, String nativePlace,
-        String nation) {
+                  String nation) {
         super();
         this.id = id;
         this.name = name;
@@ -44,6 +44,6 @@ public class Person {
     }
 
     public Person(String id, String name) {
-        this(id, name, (byte)0);
+        this(id, name, (byte) 0);
     }
 }

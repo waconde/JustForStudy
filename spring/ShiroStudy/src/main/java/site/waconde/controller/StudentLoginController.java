@@ -18,7 +18,7 @@ public class StudentLoginController {
         UsernamePasswordToken upToken = new UsernamePasswordToken(name, pwd);
         try {
             subject.login(upToken);
-        }catch (IncorrectCredentialsException e) {
+        } catch (IncorrectCredentialsException e) {
             return "密码错误";
         }
         return "login successfully";

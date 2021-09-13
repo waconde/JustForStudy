@@ -12,6 +12,23 @@ public class Person {
     private final String nativePlace;
     private final String nation;
 
+    // 使用builder对象为属性赋值
+    public Person(Builder builder) {
+        super();
+        this.id = builder.id;
+        this.name = builder.name;
+        this.age = builder.age;
+        this.gender = builder.gender;
+        this.stature = builder.stature;
+        this.weight = builder.weight;
+        this.nativePlace = builder.nativePlace;
+        this.nation = builder.nation;
+    }
+
+    public static void main(String[] args) {
+        Person person = new Person.Builder("id", "name").age((byte) 0).gender('男').nation("汉").build();
+    }
+
     // 内部构建器builder类
     public static class Builder {
         // 构建器中属性与外部类相同，因为外部类构造器（静态工厂方法）还需要使用构建器来为属性赋值。
@@ -65,22 +82,5 @@ public class Person {
         public Person build() {
             return new Person(this);
         }
-    }
-
-    // 使用builder对象为属性赋值
-    public Person(Builder builder) {
-        super();
-        this.id = builder.id;
-        this.name = builder.name;
-        this.age = builder.age;
-        this.gender = builder.gender;
-        this.stature = builder.stature;
-        this.weight = builder.weight;
-        this.nativePlace = builder.nativePlace;
-        this.nation = builder.nation;
-    }
-
-    public static void main(String[] args) {
-        Person person = new Person.Builder("id", "name").age((byte)0).gender('男').nation("汉").build();
     }
 }

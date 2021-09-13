@@ -4,7 +4,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
-/** 
+/**
  * 接收方
  * 需要注册RabbitMQ监听器，填上配置的队列名。
  *
@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
 @Component
 @RabbitListener(queues = "OneRabbitMQ")
 public class RabbitMQReceiver {
-	@RabbitHandler
-	public void process(String message) {
-		System.out.println("Receive1:this is " + message);
-	}
+    @RabbitHandler
+    public void process(String message) {
+        System.out.println("Receive1:this is " + message);
+    }
 }

@@ -10,12 +10,11 @@ import java.util.Arrays;
  * ext 类型
  * md5 md5码值
  * author 作者名
- * 
- * @author side.wang
  *
+ * @author side.wang
  */
 public class FastDFSFile implements Serializable {
-    private static final long serialVersionUID = -5029376811575622173L;
+    private static final long serialVersionUID = - 5029376811575622173L;
     private String name;
     private byte[] content;
     private String ext;
@@ -72,6 +71,6 @@ public class FastDFSFile implements Serializable {
     @Override
     public String toString() {
         return "FastDFSFile [name=" + name + ", content=" + Arrays.toString(content) + ", ext=" + ext + ", md5=" + md5
-            + ", author=" + author + "]";
+                + ", author=" + author + "]";
     }
 }

@@ -27,7 +27,8 @@ public class FastDFSClient {
     // 类加载时读取配置，完成初始化
     static {
         try {
-            String filePath = new ClassPathResource("fdfs_client.conf").getFile().getAbsolutePath();;
+            String filePath = new ClassPathResource("fdfs_client.conf").getFile().getAbsolutePath();
+            ;
             ClientGlobal.init(filePath);
             trackerClient = new TrackerClient();
             trackerServer = trackerClient.getConnection();
@@ -63,7 +64,7 @@ public class FastDFSClient {
         String remoteFileName = uploadResults[1];
 
         logger
-            .info("upload file successfully!" + "group_name:" + groupName + ", remoteFileName:" + " " + remoteFileName);
+                .info("upload file successfully!" + "group_name:" + groupName + ", remoteFileName:" + " " + remoteFileName);
         return uploadResults;
     }
 

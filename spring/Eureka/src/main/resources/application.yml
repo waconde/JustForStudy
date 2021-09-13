@@ -2,10 +2,10 @@ spring:
   application:
     name: eurekaServer
 eureka:
-# 集群需要注释这两项，否则页面显示unavailable-replicas
-#  client:
-#    fetch-registry: false
-#    register-with-eureka: false
+  # 集群需要注释这两项，否则页面显示unavailable-replicas
+  #  client:
+  #    fetch-registry: false
+  #    register-with-eureka: false
   server:
     enable-self-preservation: false
 ---

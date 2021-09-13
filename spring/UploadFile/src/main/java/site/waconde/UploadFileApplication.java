@@ -10,16 +10,16 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class UploadFileApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(UploadFileApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(UploadFileApplication.class, args);
+    }
 
-	/*
-	 * 添加tomcat上传文件大小限制，默认为10，-1则无限制
-	 */
-	@Bean
+    /*
+     * 添加tomcat上传文件大小限制，默认为10，-1则无限制
+     */
+    @Bean
     public TomcatServletWebServerFactory tomcatEmbedded() {
-	    TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory();
+        TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory();
         tomcat.addConnectorCustomizers((TomcatConnectorCustomizer) connector -> {
             if ((connector.getProtocolHandler() instanceof AbstractHttp11Protocol<?>)) {
                 //-1代表无限制，建议加限制

@@ -2,7 +2,7 @@ package factoryMethodPattern;
 
 public class Square implements Shape {
     private double sideLength;
-    
+
     public double getSideLength() {
         return sideLength;
     }

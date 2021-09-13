@@ -2,8 +2,8 @@ package enhancedBuilderModel;
 
 /**
  * 具体建造者
- * @author side.wang
  *
+ * @author side.wang
  */
 public class ConcreteBuilder extends AbstractBuilder {
 

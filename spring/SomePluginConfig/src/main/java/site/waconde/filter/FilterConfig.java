@@ -10,7 +10,6 @@ import site.waconde.cors.CorsFilter;
 
 /**
  * filter配置
- * 
  *
  * @author side.wang
  * @since 2019年10月29日
@@ -19,12 +18,12 @@ import site.waconde.cors.CorsFilter;
 public class FilterConfig {
     @Bean
     public FilterRegistrationBean corssFilterRegistration() {
-      FilterRegistrationBean registration = new FilterRegistrationBean();
-      registration.setDispatcherTypes(DispatcherType.REQUEST);
-      registration.setFilter(new CorsFilter());
-      registration.addUrlPatterns("/*");
-      registration.setName("corsFilter");
-      registration.setOrder(Integer.MAX_VALUE);
-      return registration;
+        FilterRegistrationBean registration = new FilterRegistrationBean();
+        registration.setDispatcherTypes(DispatcherType.REQUEST);
+        registration.setFilter(new CorsFilter());
+        registration.addUrlPatterns("/*");
+        registration.setName("corsFilter");
+        registration.setOrder(Integer.MAX_VALUE);
+        return registration;
     }
 }

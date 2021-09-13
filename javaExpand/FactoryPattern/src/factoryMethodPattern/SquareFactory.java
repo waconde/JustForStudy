@@ -2,8 +2,8 @@ package factoryMethodPattern;
 
 /**
  * 具体工厂
- * @author side.wang
  *
+ * @author side.wang
  */
 public class SquareFactory implements ShapeFactory {
 

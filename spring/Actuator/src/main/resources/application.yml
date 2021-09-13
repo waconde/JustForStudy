@@ -1,21 +1,26 @@
 info:
   # info端口的显示信息
-  app: 
+  app:
     name: spring-actuator
     version: v1.0.0
     environment: test
 management:
   endpoints:
-    web:      exposure:
-        # 打开所有端点。springboot2.x默认只开放/health、/info端点        include: "*"
+    web:
+      exposure:
+        # 打开所有端点。springboot2.x默认只开放/health、/info端点
+        include: "*"
         # exclude是选择打开部分端点
       # 默认所有监控端点都在/actuator/*可以改为/manage/*
       # base-path: /manage
   endpoint:
-#    1 设置状态码顺序：setStatusOrder(Status.DOWN, Status.OUT_OF_SERVICE, Status.UP, Status.UNKNOWN);。
-#    2 过滤掉不能识别的状态码。
-#    3 如果无任何状态码，整个 Spring Boot 应用的状态是 UNKNOWN。
-#    4 将所有收集到的状态码按照步骤 1 中的顺序排序。
-#    5 返回有序状态码序列中的第一个状态码，作为整个 Spring Boot 应用的状态。    health:      show-details: always
-    shutdown:      enabled: true
+    #    1 设置状态码顺序：setStatusOrder(Status.DOWN, Status.OUT_OF_SERVICE, Status.UP, Status.UNKNOWN);。
+    #    2 过滤掉不能识别的状态码。
+    #    3 如果无任何状态码，整个 Spring Boot 应用的状态是 UNKNOWN。
+    #    4 将所有收集到的状态码按照步骤 1 中的顺序排序。
+    #    5 返回有序状态码序列中的第一个状态码，作为整个 Spring Boot 应用的状态。
+    health:
+      show-details: always
+    shutdown:
+      enabled: true
 # http://localhost:8080/actuator/??访问对应的监控端口

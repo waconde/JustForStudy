@@ -1,5 +1,5 @@
-spring: 
-  
+spring:
+
 #如果加了依赖没有mybatis-plus标签提示，则删除yml文件后重新创建即可。
 #收录基本mybatis-plus配置项。详细参考：https://mp.baomidou.com/config/#%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE
 mybatis-plus:

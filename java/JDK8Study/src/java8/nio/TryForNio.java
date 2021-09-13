@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 public class TryForNio {
 
     public static void main(String[] args) throws UnsupportedEncodingException, IOException {
-        /* 
+        /*
          * 获取指定路径的文件内容。
          * Paths.get("文件全名")：从本项目的根路径开始拼接并尝试获取。JDK8Study/文件全名
          * Paths.get("路径名1", "路径名2", "文件全名")：从本项目的根路径开始拼接并尝试获取。JDK8Study/路径名1/路径名2/文件全名

@@ -14,9 +14,8 @@ import site.waconde.service.FastDFSFileService;
 
 /**
  * 实现文件上传功能
- * 
- * @author side.wang
  *
+ * @author side.wang
  */
 @Service
 public class FastDFSFileServiceImpl implements FastDFSFileService {

@@ -17,7 +17,7 @@ eureka:
 ---
 spring:
   profiles: eurekaCluster1
-  
+
 server:
   port: 8004
 

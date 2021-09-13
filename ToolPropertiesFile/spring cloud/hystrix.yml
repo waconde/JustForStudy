@@ -24,7 +24,7 @@ hystrix:
         errorThresholdPercentage: 50%
         # 断路器打开多5秒（默认）后，再次允许尝试访问。仍失败则继续保持打开状态，如成功访问则关闭断路器
         sleepWindowInMilliseconds: 5000
-        
+
 # pom添加actuator依赖，暴露hystrix监控端点。
 # yml中添加：（值为*时，暴露所有端点）
 management:

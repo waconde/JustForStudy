@@ -17,7 +17,7 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @TableName(keepGlobalPrefix = false, schema = "study")
 public class StudentInfo implements Serializable {
-    private static final long serialVersionUID = -716095365518006203L;
+    private static final long serialVersionUID = - 716095365518006203L;
 
     @TableId(type = IdType.AUTO)
     private Integer id;

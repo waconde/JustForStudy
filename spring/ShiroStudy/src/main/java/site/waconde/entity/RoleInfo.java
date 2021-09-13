@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
 @TableName(keepGlobalPrefix = false, schema = "study")
 public class RoleInfo implements Serializable {
     private static final long serialVersionUID = 7285477176066185292L;
-    
+
     @TableId(type = IdType.AUTO)
     private Integer id;
     private String name;

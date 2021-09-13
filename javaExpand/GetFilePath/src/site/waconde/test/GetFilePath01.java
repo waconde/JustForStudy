@@ -4,8 +4,8 @@ import site.waconde.main.GetFilePath;
 
 /**
  * 从其他路径测试
- * @author side.wang
  *
+ * @author side.wang
  */
 public class GetFilePath01 {
 

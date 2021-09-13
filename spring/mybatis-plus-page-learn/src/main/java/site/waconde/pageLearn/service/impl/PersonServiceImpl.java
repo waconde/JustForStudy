@@ -21,8 +21,9 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public IPage<Person> getAllInfo(Integer pageNo, Integer pageSize) {
-        if (pageNo == null || pageNo == 0 || pageSize == null || pageNo == 0)
+        if (pageNo == null || pageNo == 0 || pageSize == null || pageNo == 0) {
             throw new IllegalArgumentException("pageNo and pageSize can't be null or zero");
+        }
         IPage<Person> page = new Page<>(pageNo, pageSize);
 
         QueryWrapper<Person> queryWrapper = new QueryWrapper<>();

@@ -4,7 +4,7 @@
 spring:
   application:
     name: config-server
-  
+
   cloud:
     config:
       server:
@@ -13,10 +13,10 @@ spring:
           searchPaths: repo下的文件夹路径
           #username: your-username
           #password: your-password
-    
+
 server:
   port: 6001
-    
+
 eureka:
   client:
     service-url:
@@ -24,7 +24,7 @@ eureka:
 # 启动类添加@EnableConfigServer和@EnableDiscoveryClient
 # 在微服务项目pom中添加config客户端依赖。添加bootstrap.yml引导配置文件。
 # 编辑bootstrap.yml，添加下列信息
-spring: 
+spring:
   cloud:
     config:
       discovery:

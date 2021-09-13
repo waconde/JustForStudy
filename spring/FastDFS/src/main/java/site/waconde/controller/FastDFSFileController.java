@@ -33,7 +33,7 @@ public class FastDFSFileController {
     public String uploadResult(@ModelAttribute("message") String message) {
         return "uploadResult";
     }
-    
+
     @PostMapping("upload")
     public String singleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
         if (file.isEmpty()) {
@@ -44,7 +44,7 @@ public class FastDFSFileController {
             // Get the file and save it somewhere
             String path = fastDFSFileServiceImpl.saveFile(file);
             redirectAttributes.addFlashAttribute("message",
-                "You successfully uploaded '" + file.getOriginalFilename() + "'");
+                                                 "You successfully uploaded '" + file.getOriginalFilename() + "'");
             redirectAttributes.addFlashAttribute("path", "file path url '" + path + "'");
         } catch (Exception e) {
             logger.error("upload file failed", e);

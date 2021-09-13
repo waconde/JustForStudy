@@ -1,4 +1,5 @@
 package site.waconde.main;
+
 import site.waconde.test.GetFilePath01;
 
 public class GetFilePath {

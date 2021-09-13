@@ -7,10 +7,10 @@ spring:
   messages:
     # 这里指定：语言包/默认语言文件名 不加resource/
     basename: i18n/hello
-    
-############################################## thymeleaf
-# templates下放动态页面，经controller返回页面名后，浏览器可访问。
-# static下放静态页面，经controller返回页面名.后缀名后，浏览器可访问。
+
+  ############################################## thymeleaf
+  # templates下放动态页面，经controller返回页面名后，浏览器可访问。
+  # static下放静态页面，经controller返回页面名.后缀名后，浏览器可访问。
   thymeleaf:
     # 开发时关闭缓存
     cache: false
@@ -22,16 +22,16 @@ spring:
       content-type: text/html
     mode: HTML5
 
-############################################## eureka服务端集群
-# 新建eurekaServer项目
-# 添加启动依赖：Eureka Server
-# 需要在启动类上加@EnableEurekaServer
-# 启用多个环境后，需要配置启动参数：--spring.profiles.active=eureka1、--spring.profiles.active=eureka2、...
-# Boot Dashboard中右键eurekaServer项目->Duplicate Config有几个server分几个->对每个config右键Open Config->
-# 修改name为对应服务器名以示区分，arguments中Program arguments中添加--spring.profiles.active=eureka1。
-# 依次为其他服务器添加各自对应参数
-# 如果是在命令行中启动，添加参数：java -jar xxx.jar --spring.profiles.active=eureka1
-#spring:
+  ############################################## eureka服务端集群
+  # 新建eurekaServer项目
+  # 添加启动依赖：Eureka Server
+  # 需要在启动类上加@EnableEurekaServer
+  # 启用多个环境后，需要配置启动参数：--spring.profiles.active=eureka1、--spring.profiles.active=eureka2、...
+  # Boot Dashboard中右键eurekaServer项目->Duplicate Config有几个server分几个->对每个config右键Open Config->
+  # 修改name为对应服务器名以示区分，arguments中Program arguments中添加--spring.profiles.active=eureka1。
+  # 依次为其他服务器添加各自对应参数
+  # 如果是在命令行中启动，添加参数：java -jar xxx.jar --spring.profiles.active=eureka1
+  #spring:
   application:
     name: eureka-server
 eureka:
@@ -51,13 +51,13 @@ spring:
 
 server:
   port: 8001
-  
+
 # eurekaServer1 向 eurekaServer2、3 注册
 eureka:
   instance:
     hostname: eurekaServer1
   client:
-    service-url: 
+    service-url:
       # 默认的注册地址。向其他server注册
       defaultZone: http://eurekaServer2:8002/eureka, http://eurekaServer3:8003/eureka
 
@@ -67,7 +67,7 @@ spring:
 
 server:
   port: 8002
-  
+
 # eurekaServer2 向 eurekaServer1、3 注册
 eureka:
   instance:
@@ -82,7 +82,7 @@ spring:
 
 server:
   port: 8003
-  
+
 # eurekaServer3 向 eurekaServer1、2 注册
 eureka:
   instance:
@@ -90,7 +90,7 @@ eureka:
   client:
     service-url:
       defaultZone: http://eurekaServer1:8001/eureka, http://eurekaServer2:8002/eureka
-      
+
 ############################################## eureka客户端集群
 # 为需要注册eureka服务的微服务添加启动依赖：Eureka Discovery Client
 # 需要在启动类上加@EnableDiscoveryClient
@@ -188,7 +188,7 @@ hystrix:
         errorThresholdPercentage: 50%
         # 断路器打开多5秒（默认）后，再次允许尝试访问。仍失败则继续保持打开状态，如成功访问则关闭断路器
         sleepWindowInMilliseconds: 5000
-        
+
 # pom添加actuator依赖，暴露hystrix监控端点。
 # yml中添加：（值为*时，暴露所有端点）
 management:

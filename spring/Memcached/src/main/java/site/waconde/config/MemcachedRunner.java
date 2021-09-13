@@ -13,26 +13,26 @@ import org.springframework.stereotype.Component;
 import net.spy.memcached.MemcachedClient;
 
 /**
- * 利用 CommandLineRunner 在项目启动的时候配置好 MemcachedClient 
- * @author side.wang
+ * 利用 CommandLineRunner 在项目启动的时候配置好 MemcachedClient
  *
+ * @author side.wang
  */
 @Component
 public class MemcachedRunner implements CommandLineRunner {
 
-    protected Logger logger =  LoggerFactory.getLogger(this.getClass());
+    protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Resource
-    private  MemcacheSource memcacheSource;
+    private MemcacheSource memcacheSource;
 
     private MemcachedClient client = null;
 
     @Override
     public void run(String... args) throws Exception {
         try {
-            client = new MemcachedClient(new InetSocketAddress(memcacheSource.getIp(),memcacheSource.getPort()));
+            client = new MemcachedClient(new InetSocketAddress(memcacheSource.getIp(), memcacheSource.getPort()));
         } catch (IOException e) {
-            logger.error("inint MemcachedClient failed ",e);
+            logger.error("inint MemcachedClient failed ", e);
         }
     }
 

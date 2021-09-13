@@ -42,7 +42,6 @@ import site.waconde.entity.StudentRoleInfo;
 
 /**
  * 自定义Realm
- * 
  *
  * @author side.wang
  * @since 2019年11月1日
@@ -65,34 +64,34 @@ public class RealmConfg extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        StudentInfo student = (StudentInfo)principals.getPrimaryPrincipal();
+        StudentInfo student = (StudentInfo) principals.getPrimaryPrincipal();
         // 查询用户的角色
         QueryWrapper<StudentRoleInfo> studentRoleQuery = new QueryWrapper<StudentRoleInfo>();
         studentRoleQuery.eq("student_id", student.getId());
         List<StudentRoleInfo> studentRoleList = studentRoleMapper.selectList(studentRoleQuery);
-        if (studentRoleList == null || studentRoleList.size() == 0)
-            throw new AuthorizationException("此账号目前不属于任何角色");
+        if (studentRoleList == null || studentRoleList.size() == 0) {throw new AuthorizationException("此账号目前不属于任何角色");}
         List<Integer> roleIds = new ArrayList<Integer>(studentRoleList.size());
-        for (StudentRoleInfo studentRoleInfo : studentRoleList)
-            roleIds.add(studentRoleInfo.getRoleId());
+        for (StudentRoleInfo studentRoleInfo : studentRoleList) {roleIds.add(studentRoleInfo.getRoleId());}
         List<RoleInfo> roles = roleMapper.selectBatchIds(roleIds);
         // 查询角色的权限
         List<RolePermissionInfo> rolePermissionList = rolePermissionMapper.selectBatchIds(roleIds);
-        if (rolePermissionList == null || rolePermissionList.size() == 0)
+        if (rolePermissionList == null || rolePermissionList.size() == 0) {
             throw new AuthorizationException("此角色目前无任何权限");
+        }
         List<Integer> permissionIds = new ArrayList<Integer>(rolePermissionList.size());
-        for (RolePermissionInfo rolePermissionInfo : rolePermissionList)
+        for (RolePermissionInfo rolePermissionInfo : rolePermissionList) {
             permissionIds.add(rolePermissionInfo.getPermissionId());
+        }
         List<PermissionInfo> permissions = permissionMapper.selectBatchIds(permissionIds);
         Set<String> permissionSet = new HashSet<>();
         Set<String> roleSet = new HashSet<>();
         for (RoleInfo role : roles) {
-            if (!StringUtils.isEmpty(role.getName())) {
+            if (! StringUtils.isEmpty(role.getName())) {
                 roleSet.add(role.getName());
             }
         }
         for (PermissionInfo permission : permissions) {
-            if (!StringUtils.isEmpty(permission.getName())) {
+            if (! StringUtils.isEmpty(permission.getName())) {
                 permissionSet.add(permission.getName());
             }
         }
@@ -101,15 +100,15 @@ public class RealmConfg extends AuthorizingRealm {
         info.setStringPermissions(permissionSet);
         return info;
     }
-    
+
     /**
      * 身份认证
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         System.out.println("-------身份认证方法--------");
-        String username = (String)token.getPrincipal();
-        String pwd = new String((char[])token.getCredentials());
+        String username = (String) token.getPrincipal();
+        String pwd = new String((char[]) token.getCredentials());
         QueryWrapper<StudentInfo> queryWrapper = new QueryWrapper<StudentInfo>();
         queryWrapper.eq("name", username);
         StudentInfo studentInfo = studentLoginMapper.selectOne(queryWrapper);

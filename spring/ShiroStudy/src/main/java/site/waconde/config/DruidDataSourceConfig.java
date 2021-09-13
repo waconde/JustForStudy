@@ -20,35 +20,35 @@ import lombok.extern.slf4j.Slf4j;
 public class DruidDataSourceConfig {
     @Value("${spring.datasource.url}")
     private String dbUrl;
-    
+
     @Value("${spring.datasource.username}")
     private String username;
-    
+
     @Value("${spring.datasource.password}")
     private String password;
-    
+
     @Value("${spring.datasource.driver-class-name}")
     private String driverClassName;
-    
+
     @Value("${spring.datasource.filters}")
     private String filters;
-    
+
     @Bean
     @Primary
-    public DataSource dataSource(){
+    public DataSource dataSource() {
         DruidDataSource datasource = new DruidDataSource();
-        
+
         datasource.setUrl(dbUrl);
         datasource.setUsername(username);
         datasource.setPassword(password);
         datasource.setDriverClassName(driverClassName);
-        
+
         try {
             datasource.setFilters(filters);
         } catch (SQLException e) {
             log.error("druid configuration initialization filter", e);
         }
-        
+
         return datasource;
     }
 }
