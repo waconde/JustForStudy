@@ -24,7 +24,7 @@ public class StreamBaseGrammer {
 
     public static void main(String[] args) {
         StreamBaseGrammer streamBaseGrammer = new StreamBaseGrammer();
-        System.out.println("productStudents====================");
+        System.out.println("productStudents=====================");
         streamBaseGrammer.productStudents();
         System.out.println("toTreeSet====================");
         streamBaseGrammer.toLinkedHashSet();
